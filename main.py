@@ -20,7 +20,7 @@ def main() -> None:
                     if choice == '1':
                         manager.add_task()
                     elif choice == '2':
-                        pass
+                        manager.view_tasks()
                     elif choice == '3':
                         pass
                     elif choice == '4':

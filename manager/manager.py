@@ -9,6 +9,7 @@ class Manager:
     def __init__(self):
         self.user = None
         self.users = self.load_users()
+        self.tasks = []
 
     def register(self):
         name = input("name: ").strip()
@@ -70,16 +71,20 @@ class Manager:
         title = input('title: ')
         description = input('description: ')
         created_at = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-        deatline = input('deatline: ')
+        deadline = input('deadline: ')
 
         task = {
             'user_id': self.user.user_id,
             'title': title,
             'description': description,
             'created_at': created_at,
-            'deatline': deatline,
-            'completed': False
+            'deadline': deadline,
+            'completed': False,
+            'done':False
+            
         }
+        self.tasks.append(task)
+        print("Task muvafaqiyatli qoshildi")
 
         with open('data/tasks.json') as jsonfile:
             try:
@@ -90,4 +95,18 @@ class Manager:
         with open('data/tasks.json', 'w') as jsonfile:
             tasks.append(task)
             json.dump(tasks, jsonfile, indent=4)
+    
+    def view_tasks(self):
+        if not self.tasks:
+            print("🚫 Hozircha hech qanday task yo'q.")
+            return
 
+        print("📋 Barcha Tasklar:")
+        for idx, task in enumerate(self.tasks, start=1):
+            status = "✅ Bajardi" if task['done'] else "❌ Bajarilmagan"
+            print(f"\n{idx}. {task['title']}")
+            print(f"   Tavsif: {task['description']}")
+            print(f"   Yar. sana: {task['created_at']}")
+            print(f"   Deadline: {task['deadline']}")
+            print(f"   Status: {status}")
+    
